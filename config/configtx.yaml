@@ -1,0 +1,179 @@
+Organizations:
+  - &OrdererOrg
+    Name: OrdererOrg
+    ID: OrdererMSP
+    MSPDir: ../organizations/ordererOrganizations/airmile.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.admin')"
+    OrdererEndpoints:
+      - orderer.airmile.com:7050
+
+  - &Airlines
+    Name: AirlinesMSP
+    ID: AirlinesMSP
+    MSPDir: ../organizations/peerOrganizations/airlines.airmile.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('AirlinesMSP.admin', 'AirlinesMSP.peer', 'AirlinesMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('AirlinesMSP.admin', 'AirlinesMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('AirlinesMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('AirlinesMSP.peer')"
+
+  - &Merchants
+    Name: MerchantsMSP
+    ID: MerchantsMSP
+    MSPDir: ../organizations/peerOrganizations/merchants.airmile.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('MerchantsMSP.admin', 'MerchantsMSP.peer', 'MerchantsMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('MerchantsMSP.admin', 'MerchantsMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('MerchantsMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('MerchantsMSP.peer')"
+
+  - &Banks
+    Name: BanksMSP
+    ID: BanksMSP
+    MSPDir: ../organizations/peerOrganizations/banks.airmile.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('BanksMSP.admin', 'BanksMSP.peer', 'BanksMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('BanksMSP.admin', 'BanksMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('BanksMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('BanksMSP.peer')"
+
+  - &Customers
+    Name: CustomersMSP
+    ID: CustomersMSP
+    MSPDir: ../organizations/peerOrganizations/customers.airmile.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('CustomersMSP.admin', 'CustomersMSP.peer', 'CustomersMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('CustomersMSP.admin', 'CustomersMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('CustomersMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('CustomersMSP.peer')"
+        
+Capabilities:  
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_5: true
+    
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+  Addresses:
+    - orderer.airmile.com:7050
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Profiles:
+  FourOrgsChannel:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      OrdererType: etcdraft
+      EtcdRaft:
+        Consenters:
+          - Host: orderer.airmile.com
+            Port: 7050
+            ClientTLSCert: ../organizations/ordererOrganizations/airmile.com/orderers/orderer.airmile.com/tls/server.crt
+            ServerTLSCert: ../organizations/ordererOrganizations/airmile.com/orderers/orderer.airmile.com/tls/server.crt
+      Organizations:
+        - *OrdererOrg
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Airlines
+        - *Merchants
+        - *Banks
+        - *Customers
+      Capabilities: *ApplicationCapabilities
