@@ -11,7 +11,7 @@ docker rm -f $(docker ps -a | awk '($2 ~ /dev-peer.*/) {print $1}')
 docker volume rm $(docker volume ls -q)
 
 rm -rf channel-artifacts/
-rm airmiletoken.tar.gz
+rm basic.tar.gz
 rm -rf organizations/
 
 docker ps -a
