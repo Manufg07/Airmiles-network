@@ -1,0 +1,20 @@
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA \
+-C $CHANNEL_NAME -n Airmile -c '{"function":"AirlineBookingContract:createBooking","Args":["Ticket-01", "John Doe", "Flight-101", "1500"]}' \
+--peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT
+
+
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA \
+-C $CHANNEL_NAME -n Airmile -c '{"function":"AirlineBookingContract:completeBooking","Args":["Ticket-01"]}' \
+--peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT
+
+
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA \
+-C $CHANNEL_NAME -n Airmile -c '{"function":"AirlineBookingContract:cancelBooking","Args":["Ticket-01"]}' \
+--peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT
+
+
+peer chaincode query -C $CHANNEL_NAME -n Airmile -c '{"function":"AirlineBookingContract:getBooking","Args":["Ticket-01"]}'
+
+
+peer channel getinfo -c $CHANNEL_NAME

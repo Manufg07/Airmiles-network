@@ -1,0 +1,12 @@
+export FABRIC_CFG_PATH=./peercfg
+export CHANNEL_NAME=airmilechannel 
+export CORE_PEER_LOCALMSPID=MerchantsMSP
+export CORE_PEER_TLS_ENABLED=true
+export CORE_PEER_ADDRESS=localhost:9051 
+export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/organizations/peerOrganizations/merchants.airmile.com/peers/peer0.merchants.airmile.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/merchants.airmile.com/users/Admin@merchants.airmile.com/msp
+export ORDERER_CA=${PWD}/organizations/ordererOrganizations/airmile.com/orderers/orderer.airmile.com/msp/tlscacerts/tlsca.airmile.com-cert.pem
+export AIRLINES_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/airlines.airmile.com/peers/peer0.airlines.airmile.com/tls/ca.crt
+export MERCHANTS_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/merchants.airmile.com/peers/peer0.merchants.airmile.com/tls/ca.crt
+export BANKS_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/banks.airmile.com/peers/peer0.banks.airmile.com/tls/ca.crt
+export CUSTOMERS_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/customers.airmile.com/peers/peer0.customers.airmile.com/tls/ca.crt
