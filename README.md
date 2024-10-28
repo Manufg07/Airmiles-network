@@ -21,7 +21,7 @@ The network consists of the following **four organizations**:
 
 1. **✈️ Airline Consortium**: A group of airlines that issues Air Miles to their customers.
 2. **🏪 Merchants/Partners**: Retailers, hotels, and other businesses that accept or distribute Air Miles.
-3. **🏦 Banks/Financial Institutions**: Banks that facilitate the financial exchange or conversion of Air Miles into monetary value.
+3. **🏦 Banks/Financial Institutions**: Banks that facilitate the financial exchange or conversion of Air Miles into monetary value
 4. **🧑‍💼 Customers**: Individuals who accumulate, transfer, and redeem Air Miles.
 
 ## 🚀 Getting Started
