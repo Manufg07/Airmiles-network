@@ -6,13 +6,23 @@ acer@acer-Aspire-ES1-523:~/MANU/Web3/CHF/Airmiles-network$ peer chaincode invoke
 2024-10-28 00:58:37.538 IST 0001 INFO [chaincodeCmd] chaincodeInvokeOrQuery -> Chaincode invoke successful. result: status:200 payload:"Booking created successfully. 200 airmiles have been credited to customer customerId-01" 
 acer@acer-Aspire-ES1-523:~/MANU/Web3/CHF/Airmiles-network$ 
 
+#CREATE_CUSTOMER
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT --peerAddresses localhost:9051 --tlsRootCertFiles $MERCHANTS_PEER_TLSROOTCERT --peerAddresses localhost:11051 --tlsRootCertFiles $BANKS_PEER_TLSROOTCERT --peerAddresses localhost:12051 --tlsRootCertFiles $AGENCY_PEER_TLSROOTCERT -c '{"function":"createCustomer","Args":["customerId-01", "Manu"]}'
+peer chaincode query -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:12051 --tlsRootCertFiles $AGENCY_PEER_TLSROOTCERT -c '{"function":"readCustomer","Args":["customerId-01"]}'
 
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT --peerAddresses localhost:9051 --tlsRootCertFiles $MERCHANTS_PEER_TLSROOTCERT --peerAddresses localhost:11051 --tlsRootCertFiles $BANKS_PEER_TLSROOTCERT --peerAddresses localhost:12051 --tlsRootCertFiles $CUSTOMERS_PEER_TLSROOTCERT -c '{"function":"createCustomer","Args":["customerId-01", "Manu"]}'
-peer chaincode query -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:12051 --tlsRootCertFiles $CUSTOMERS_PEER_TLSROOTCERT -c '{"function":"readCustomer","Args":["customerId-02"]}'
+#CREATE_BOOKING
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT --peerAddresses localhost:9051 --tlsRootCertFiles $MERCHANTS_PEER_TLSROOTCERT --peerAddresses localhost:11051 --tlsRootCertFiles $BANKS_PEER_TLSROOTCERT --peerAddresses localhost:12051 --tlsRootCertFiles $CUSTOMERS_PEER_TLSROOTCERT -c '{"function":"createBookingAsset","Args":["ticketId-01", "customerId-01", "AirIndia", "{\"distance\": 1200, \"class\": \"Economy\", \"flyerStatus\": \"Gold\"}", "2024-10-28"]}'
 
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT --peerAddresses localhost:9051 --tlsRootCertFiles $MERCHANTS_PEER_TLSROOTCERT --peerAddresses localhost:11051 --tlsRootCertFiles $BANKS_PEER_TLSROOTCERT --peerAddresses localhost:12051 --tlsRootCertFiles $CUSTOMERS_PEER_TLSROOTCERT -c '{"function":"createBookingAsset","Args":["ticketId-01", "customerId-01", "AirIndia", "{\"distance\": 1200, \"class\": \"Economy\", \"flyerStatus\": \"Gold\"}"]}'
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT --peerAddresses localhost:9051 --tlsRootCertFiles $MERCHANTS_PEER_TLSROOTCERT --peerAddresses localhost:11051 --tlsRootCertFiles $BANKS_PEER_TLSROOTCERT --peerAddresses localhost:12051 --tlsRootCertFiles $CUSTOMERS_PEER_TLSROOTCERT -c '{"function":"createBookingAsset","Args":["ticketId-02", "customerId-02", "BritishAirways", "{\"distance\": 5000, \"class\": \"Business\", \"flyerStatus\": \"Platinum\"}", "2024-11-15"]}'
 
 
-peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:12051 --tlsRootCertFiles $CUSTOMERS_PEER_TLSROOTCERT -c '{"function":"createBookingAsset","Args":["ticketId-01", "customerId-01", "AirIndia", "{\"distance\": 1200, \"class\": \"Economy\", \"flyerStatus\": \"Gold\"}"]}'
+peer chaincode query -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:12051 --tlsRootCertFiles $CUSTOMERS_PEER_TLSROOTCERT -c '{"Args":["readBooking", "customerId-01","ticketId-01"]}'
 
-peer chaincode query -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT -c '{"Args":["readBooking", "ticketId-01"]}'
+#CREATE_ITEM
+
+
+#RICH_QUERY
+peer chaincode query -C $CHANNEL_NAME -n Airmile --peerAddresses localhost:7051 --tlsRootCertFiles $AIRLINES_PEER_TLSROOTCERT -c '{"Args":["queryAllBookings"]}'
+
+#BYRANGE
+peer chaincode query -o localhost:7050 --ordererTLSHostnameOverride orderer.airmile.com --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n Airmile -c '{"function":"getBookingsByRange","Args":["ticketId-01", "ticketId-10"]}'

@@ -6,7 +6,7 @@ volumes:
   # peer1.airlines.airmile.com:
   peer0.merchants.airmile.com:
   peer0.banks.airmile.com:
-  peer0.customers.airmile.com:
+  peer0.agency.airmile.com:
 
 
 networks:
@@ -117,18 +117,18 @@ services:
     networks:
       - airmiles
 
-  couchdb4:
-    container_name: couchdb4
-    image: couchdb:3.3.2
-    labels:
-      service: hyperledger-fabric
-    environment:
-      - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=adminpw
-    ports:
-      - "5985:5984"
-    networks:
-      - airmiles
+  # couchdb4:
+  #   container_name: couchdb4
+  #   image: couchdb:3.3.2
+  #   labels:
+  #     service: hyperledger-fabric
+  #   environment:
+  #     - COUCHDB_USER=admin
+  #     - COUCHDB_PASSWORD=adminpw
+  #   ports:
+  #     - "5985:5984"
+  #   networks:
+  #     - airmiles
 
   # peer1.airlines.airmile.com:
   #   container_name: peer1.airlines.airmile.com
@@ -312,8 +312,8 @@ services:
     networks:
       - airmiles
 
-  peer0.customers.airmile.com:
-    container_name: peer0.customers.airmile.com
+  peer0.agency.airmile.com:
+    container_name: peer0.agency.airmile.com
     image: hyperledger/fabric-peer:2.5.4
     labels:
       service: hyperledger-fabric
@@ -330,18 +330,18 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variables
-      - CORE_PEER_ID=peer0.customers.airmile.com
-      - CORE_PEER_ADDRESS=peer0.customers.airmile.com:12051
+      - CORE_PEER_ID=peer0.agency.airmile.com
+      - CORE_PEER_ADDRESS=peer0.agency.airmile.com:12051
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
       - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.customers.airmile.com:12052
+      - CORE_PEER_CHAINCODEADDRESS=peer0.agency.airmile.com:12052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.customers.airmile.com:12051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.customers.airmile.com:12051
-      - CORE_PEER_LOCALMSPID=CustomersMSP
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.customers.airmile.com:9448
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.agency.airmile.com:12051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.agency.airmile.com:12051
+      - CORE_PEER_LOCALMSPID=AgencyMSP
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.agency.airmile.com:9448
       - CORE_METRICS_PROVIDER=prometheus
-      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0customers"}
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0agency"}
       - CORE_CHAINCODE_EXECUTETIMEOUT=300s  
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb3:5984
@@ -351,8 +351,8 @@ services:
       - couchdb3    
     volumes:
       - /var/run/docker.sock:/host/var/run/docker.sock      
-      - ../organizations/peerOrganizations/customers.airmile.com/peers/peer0.customers.airmile.com:/etc/hyperledger/fabric        
-      - peer0.customers.airmile.com:/var/hyperledger/production
+      - ../organizations/peerOrganizations/agency.airmile.com/peers/peer0.agency.airmile.com:/etc/hyperledger/fabric        
+      - peer0.agency.airmile.com:/var/hyperledger/production
     working_dir: /root
     command: peer node start
     ports:
@@ -383,6 +383,6 @@ services:
       - peer0.airlines.airmile.com
       - peer0.merchants.airmile.com
       - peer0.banks.airmile.com
-      - peer0.customers.airmile.com
+      - peer0.agency.airmile.com
     networks:
       - airmiles

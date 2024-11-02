@@ -70,23 +70,23 @@ Organizations:
         Type: Signature
         Rule: "OR('BanksMSP.peer')"
 
-  - &Customers
-    Name: CustomersMSP
-    ID: CustomersMSP
-    MSPDir: ../organizations/peerOrganizations/customers.airmile.com/msp
+  - &Agency
+    Name: AgencyMSP
+    ID: AgencyMSP
+    MSPDir: ../organizations/peerOrganizations/agency.airmile.com/msp
     Policies:
       Readers:
         Type: Signature
-        Rule: "OR('CustomersMSP.admin', 'CustomersMSP.peer', 'CustomersMSP.client')"
+        Rule: "OR('AgencyMSP.admin', 'AgencyMSP.peer', 'AgencyMSP.client')"
       Writers:
         Type: Signature
-        Rule: "OR('CustomersMSP.admin', 'CustomersMSP.client')"
+        Rule: "OR('AgencyMSP.admin', 'AgencyMSP.client')"
       Admins:
         Type: Signature
-        Rule: "OR('CustomersMSP.admin')"
+        Rule: "OR('AgencyMSP.admin')"
       Endorsement:
         Type: Signature
-        Rule: "OR('CustomersMSP.peer')"
+        Rule: "OR('AgencyMSP.peer')"
         
 Capabilities:  
   Channel: &ChannelCapabilities
@@ -175,5 +175,5 @@ Profiles:
         - *Airlines
         - *Merchants
         - *Banks
-        - *Customers
+        - *Agency
       Capabilities: *ApplicationCapabilities

@@ -9,4 +9,4 @@ export ORDERER_CA=${PWD}/organizations/ordererOrganizations/airmile.com/orderers
 export AIRLINES_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/airlines.airmile.com/peers/peer0.airlines.airmile.com/tls/ca.crt
 export MERCHANTS_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/merchants.airmile.com/peers/peer0.merchants.airmile.com/tls/ca.crt
 export BANKS_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/banks.airmile.com/peers/peer0.banks.airmile.com/tls/ca.crt
-export CUSTOMERS_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/customers.airmile.com/peers/peer0.customers.airmile.com/tls/ca.crt
+export AGENCY_PEER_TLSROOTCERT=${PWD}/organizations/peerOrganizations/agency.airmile.com/peers/peer0.agency.airmile.com/tls/ca.crt
